@@ -47,10 +47,10 @@ export async function POST(
 
     const note = await prisma.boardNote.upsert({
       where: { boardId },
-      update: { content: body.content },
+      update: { content: body.content ?? "" },
       create: {
         boardId,
-        content: body.content,
+        content: body.content ?? "",
       },
     });
 

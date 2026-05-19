@@ -50,7 +50,7 @@ model BoardMember {
 
 model BoardNote {
   id        Int      @id @default(autoincrement())
-  content   String   @default("") @db.Text
+  content   String   @db.Text
   boardId   Int      @unique
   updatedAt DateTime @updatedAt
 
