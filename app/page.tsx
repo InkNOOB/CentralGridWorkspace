@@ -146,7 +146,7 @@ export default function Login() {
             WELCOME BACK
           </h1>
           <p style={{ fontSize: "1.5rem", opacity: "0.7", margin: "10px 0" }}>
-            Central Grid Worspace
+            Central Grid Workspace
           </p>
         </div>
 
