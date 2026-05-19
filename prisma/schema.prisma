@@ -1,0 +1,102 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  username String @unique
+  password String
+
+  boards Board[]       
+  memberships BoardMember[]
+
+}
+
+model Board {
+  id        Int      @id @default(autoincrement())
+  title     String
+  ownerId   Int
+  owner     User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  inviteCode String @unique
+
+  members BoardMember[]
+
+  note BoardNote?
+  todos Todo[]
+  links BoardLink[]
+  files BoardFile[]
+  images BoardImage[]
+}
+
+model BoardMember {
+  id      Int    @id @default(autoincrement())
+  userId  Int
+  boardId Int
+  role    String @default("member")
+
+
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  board   Board  @relation(fields: [boardId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, boardId])
+}
+
+model BoardNote {
+  id        Int      @id @default(autoincrement())
+  content   String   @default("") @db.Text
+  boardId   Int      @unique
+  updatedAt DateTime @updatedAt
+
+  board     Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
+}
+
+model Todo {
+  id        Int     @id @default(autoincrement())
+  text      String
+  completed Boolean @default(false)
+
+  boardId Int
+
+  board     Board   @relation(fields: [boardId], references: [id], onDelete: Cascade)
+}
+
+model BoardLink {
+  id        Int      @id @default(autoincrement())
+  title     String   // E.g., "Project Figma", "Google Drive"
+  url       String   @db.Text // @db.Text just in case the URL is super long!
+  boardId   Int
+  createdAt DateTime @default(now())
+
+  board     Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
+}
+
+model BoardImage {
+  id        Int      @id @default(autoincrement())
+  name      String   // Name of the image (e.g., "mockup.png")
+  type      String   // Format type (e.g., "image/jpeg", "image/png")
+  size      Int      // Size in bytes
+  imageData Bytes    @db.LongBlob // ◄── THE RAW BINARY IMAGE LIVES HERE
+  boardId   Int
+  createdAt DateTime @default(now())
+
+  board     Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
+}
+
+model BoardFile {
+  id        Int      @id @default(autoincrement())
+  name      String   // Original file name (e.g., "Project_Specs.pdf")
+  type      String   // MIME type (e.g., "application/pdf")
+  size      Int      // File size in bytes
+  fileData  Bytes    @db.LongBlob // 
+  boardId   Int
+  createdAt DateTime @default(now())
+
+  board     Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
+}
