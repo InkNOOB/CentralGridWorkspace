@@ -88,7 +88,7 @@ export default function BoardPage() {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          paddingLeft: "300px",
+          paddingLeft: "320px",
           paddingRight: "40px",
           position: "sticky",
           top: 0,
@@ -138,12 +138,13 @@ export default function BoardPage() {
 
       <div
         style={{
-          marginTop:"20px",
-          marginLeft: "290px",
+          scale: "0.95",
+          marginTop:"10px",
+          marginLeft: "300px",
           padding: "20px",
           display: "grid",
           gridTemplateColumns: "repeat(3, 1fr)",
-          gap: "20px",                /* Slightly increased gap for better breathing room */
+          gap: "15px",                /* Slightly increased gap for better breathing room */
           alignItems: "flex-start",
         }}
       > 
