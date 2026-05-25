@@ -125,7 +125,7 @@ export default function Home() {
           </h1>
 
           <p style={{ color: "#64748b", marginTop: "5px" }}>
-            you may now rest in peace
+            hope you have a productive day!
           </p>
         </div>
 
