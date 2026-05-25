@@ -10,7 +10,6 @@ import Links from "@/components/Widgets/links";
 import ImgGallery from "@/components/Widgets/gallery";
 import Files from "@/components/Widgets/files";
 
-
 export default function BoardPage() {
   const router = useRouter();
   const { id } = useParams();
@@ -67,15 +66,24 @@ export default function BoardPage() {
   }
 
   return (
-    /* FIXED: Added minWidth: "max-content" so the layout container matches the full width of your 3 columns on small screens */
-    <div style={{ display: "flex", flexDirection: "column", fontFamily: "Arial, sans-serif", minWidth: "max-content", width: "100%" }}>
+    <div 
+      style={{ 
+        display: "flex", 
+        flexDirection: "column", 
+        fontFamily: "Arial, sans-serif", 
+        minWidth: "max-content", 
+        width: "100%",
+        minHeight: "100vh",        /* Ensures the background stretches to full screen height */
+        backgroundColor: "#edf2f7" /* Soft cool-gray background to make white widgets pop */
+      }}
+    >
       <SideBar />
 
       <header
         style={{
           height: "100px",
           width: "100%",
-          backgroundColor: "#bdcadbff",
+          backgroundColor: "rgb(150, 176, 209)",
           borderBottom: "1px solid #e2e8f0",
           display: "flex",
           alignItems: "center",
@@ -128,14 +136,14 @@ export default function BoardPage() {
         </div>
       </header>
 
-      {/* Kept exactly as your original 3-column layout */}
       <div
         style={{
+          marginTop:"20px",
           marginLeft: "290px",
           padding: "20px",
           display: "grid",
           gridTemplateColumns: "repeat(3, 1fr)",
-          gap: "10px",
+          gap: "20px",                /* Slightly increased gap for better breathing room */
           alignItems: "flex-start",
         }}
       > 
