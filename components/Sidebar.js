@@ -52,7 +52,7 @@ export default function Sidebar() {
     <div
       style={{
         width: "270px",
-        height: "100vh",
+        height: "100%",
         position: "fixed",
         top: 0,
         left: 0,
