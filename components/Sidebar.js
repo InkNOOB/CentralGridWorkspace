@@ -173,7 +173,7 @@ export default function Sidebar() {
             My Boards
           </div>
 
-          <div
+          {/* <div
             style={menuItem("Create Board")}
             onMouseEnter={() => setHoveredItem("Create Board")}
             onMouseLeave={() => setHoveredItem("")}
@@ -207,7 +207,7 @@ export default function Sidebar() {
             />
 
             Join Board
-          </div>
+          </div> */}
         </div>
       </div>
 
