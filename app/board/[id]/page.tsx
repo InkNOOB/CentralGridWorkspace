@@ -33,7 +33,6 @@ export default function BoardPage() {
     async function load() {
       setLoading(true);
       try {
-        // FIX: Send the user's ID along with the request headers
         const res = await fetch(`/api/boards/${id}`, {
           method: "GET",
           headers: {
@@ -42,10 +41,9 @@ export default function BoardPage() {
           },
         });
 
-        // FIX: If the user isn't allowed here, kick them out!
         if (res.status === 403 || res.status === 401) {
           alert("Access Denied: You are not a member of this board.");
-          router.push("/home"); // Redirect to dashboard/home page
+          router.push("/home"); 
           return;
         }
 
@@ -69,7 +67,8 @@ export default function BoardPage() {
   }
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", fontFamily: "Arial, sans-serif" }}>
+    /* FIXED: Added minWidth: "max-content" so the layout container matches the full width of your 3 columns on small screens */
+    <div style={{ display: "flex", flexDirection: "column", fontFamily: "Arial, sans-serif", minWidth: "max-content", width: "100%" }}>
       <SideBar />
 
       <header
@@ -87,15 +86,24 @@ export default function BoardPage() {
           top: 0,
           zIndex: 10,
           boxShadow: "inset 10px 0px 10px rgba(0, 0, 0, 0.36)",
+          boxSizing: "border-box",
         }}
       >
-        <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-          <h1 style={{ margin: 0, fontSize: "1.5rem", fontWeight: "700", color: "#0f172a", minWidth: "500px" }}>
+        <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", minWidth: 0, marginRight: "20px" }}>
+          <h1 style={{ 
+            margin: 0, 
+            fontSize: "1.5rem", 
+            fontWeight: "700", 
+            color: "#0f172a",
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis"
+          }}>
             {board.title}
           </h1>
 
           <div style={{ display: "flex", alignItems: "center", gap: "10px", marginTop: "5px" }}>
-            <p style={{ margin: 0, fontSize: "13px", color: "#64748b" }}>
+            <p style={{ margin: 0, fontSize: "13px", color: "#64748b", whiteSpace: "nowrap" }}>
               Invite Code: {board.inviteCode}
             </p>
 
@@ -107,6 +115,7 @@ export default function BoardPage() {
                 borderRadius: "999px",
                 fontSize: "12px",
                 fontWeight: "700",
+                flexShrink: 0,
               }}
             >
               {user?.id === board.ownerId ? "Owner" : "Member"}
@@ -114,11 +123,12 @@ export default function BoardPage() {
           </div>
         </div>
 
-        <div style={{ background: "#f1f5f9", padding: "8px 14px", borderRadius: "10px", fontSize: "14px", fontWeight: "600", color: "#334155", border: "1px solid" }}>
+        <div style={{ background: "#f1f5f9", padding: "8px 14px", borderRadius: "10px", fontSize: "14px", fontWeight: "600", color: "#334155", border: "1px solid", flexShrink: 0 }}>
           Members: {board._count?.members || 0}
         </div>
       </header>
 
+      {/* Kept exactly as your original 3-column layout */}
       <div
         style={{
           marginLeft: "290px",
@@ -135,7 +145,6 @@ export default function BoardPage() {
         <Links boardId={Number(id)}/>
         <Files boardId={Number(id)}/>
         <ImgGallery boardId={Number(id)}/>
-
       </div>
     </div>
   );
