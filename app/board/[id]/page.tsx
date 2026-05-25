@@ -148,9 +148,9 @@ export default function BoardPage() {
         }}
       > 
         <Todo boardId={Number(id)}/>
-        <Notes boardId={Number(id)}/>  
-        <Calendar/>
         <Links boardId={Number(id)}/>
+        <Calendar/>
+        <Notes boardId={Number(id)}/>  
         <Files boardId={Number(id)}/>
         <ImgGallery boardId={Number(id)}/>
       </div>
