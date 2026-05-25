@@ -85,7 +85,7 @@ export default function FilesWidget({ boardId }: { boardId: number }) {
     <div
       style={{
         background: "#fff",
-        border: "1px solid #e6e6e6ff",
+        border: "1px solid rgb(117, 117, 117)",
         borderRadius: "12px",
         padding: "16px",
         minWidth: "500px",

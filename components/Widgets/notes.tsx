@@ -27,25 +27,29 @@ export default function Note({ boardId }: { boardId: number }) {
   // MANUAL SAVE
   const saveNote = async () => {
     setSaving(true);
-
-    await fetch(`/api/board/${boardId}/note`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ content }),
-    });
-
-    setSaving(false);
+    try {
+      await fetch(`/api/board/${boardId}/note`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content }),
+      });
+    } catch (error) {
+      console.error("Failed to save note:", error);
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
     <div
       style={{
         background: "#fff",
-        border: "1px solid #e6e6e6ff",
+        border: "1px solid rgb(117, 117, 117)",
         borderRadius: "12px",
-        padding: "10px 15px",
+        padding: "16px",
         maxWidth: "500px",
         minWidth: "500px",
+        height: "98mm",             /* Secure layout grid boundary */
         boxShadow: "-5px 8px 6px rgba(0, 0, 0, 0.16)",
         fontFamily: "Arial, sans-serif",
         boxSizing: "border-box",
@@ -55,30 +59,30 @@ export default function Note({ boardId }: { boardId: number }) {
     >
       <p
         style={{
-          fontSize: "1.2rem",
+          fontSize: "1.15rem",
           fontWeight: "600",
-          marginBottom: "5px",
-          marginLeft: "10px",
+          marginTop: 0,
+          marginBottom: "12px",
           color: "#0f172a",
           textTransform: "uppercase",
         }}
       >
-        NOTES
+        Notes
       </p>
 
       {/* TEXTAREA OR SIMPLE LOADING CONTAINER */}
       <div
         style={{
           width: "100%",
-          height: "74mm",
-          minHeight: "74mm",
+          height: "64mm",           /* Reduced from 74mm to perfectly fit inside the 98mm boundary */
+          minHeight: "64mm",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          marginBottom: "12px",
         }}
       >
         {loading ? (
-          /* SIMPLE LOADING STATE (Matches Todo, Links, Gallery style) */
           <p style={{ color: "#94a3b8", fontSize: "0.9rem", textAlign: "center", margin: 0 }}>
             Loading note...
           </p>
@@ -101,22 +105,28 @@ export default function Note({ boardId }: { boardId: number }) {
         )}
       </div>
 
-      {/* SAVE BUTTON */}
-      <p
-        onClick={loading ? undefined : saveNote}
-        style={{
-          color: loading ? "#94a3b8" : saving ? "#999" : "#658effff",
-          fontSize: "1rem",
-          marginTop: "14px",
-          marginBottom: "5px",
-          marginLeft: "20px",
-          cursor: loading ? "not-allowed" : "pointer",
-          userSelect: "none",
-          fontWeight: "500",
-        }}
-      >
-        {saving ? "SAVING..." : "SAVE ✔"}
-      </p>
+      {/* SAVE ACTION LAYER */}
+      <div style={{ marginTop: "auto" }}>
+        <button
+          onClick={saveNote}
+          disabled={saving || loading}
+          style={{
+            width: "100%",
+            padding: "10px",
+            background: (saving || loading) ? "#cbd5e1" : "#3b82f6",
+            color: "#fff",
+            border: "none",
+            borderRadius: "8px",
+            fontWeight: "600",
+            fontSize: "0.9rem",
+            cursor: (saving || loading) ? "not-allowed" : "pointer",
+            textAlign: "center",
+            transition: "background 0.2s",
+          }}
+        >
+          {saving ? "Saving Note..." : "Save Note"}
+        </button>
+      </div>
     </div>
   );
 }
