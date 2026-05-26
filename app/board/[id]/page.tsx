@@ -138,7 +138,7 @@ export default function BoardPage() {
 
       <div
         style={{
-          scale: "0.95",
+          // scale: "0.95",
           marginTop:"10px",
           marginLeft: "300px",
           padding: "20px",
